@@ -763,6 +763,7 @@ Snake Entity
 
       // check death by eating self
       if (this.deathFlag) {
+        console.log("Moriste puto");
         g.setState("play");
       }
     }
