@@ -1,5 +1,33 @@
 /*================================================
 
+Webxdc stuff
+
+================================================*/
+
+let PLAYERS = {};
+
+const addr = window.webxdc.selfAddr;
+const selfName = window.webxdc.selfName;
+
+(function () {
+  "use strict";
+  window.webxdc.setUpdateListener((update) => {
+    const player = update.payload;
+    const local_best = PLAYERS[player.addr] ? PLAYERS[player.addr].score : 0;
+    if (local_best < player.score) {
+      PLAYERS[player.addr] = {
+        name: player.name,
+        score: player.score,
+      };
+      // if (update.serial === update.max_serial) {
+      //   this.setState({});  // refresh scoreboard
+      // }
+    }
+  }, 0);
+})();
+
+/*================================================
+
 Polyfill
 
 ================================================*/
@@ -764,6 +792,34 @@ Snake Entity
       // check death by eating self
       if (this.deathFlag) {
         console.log("Moriste puto");
+        // score
+        console.log(g.states[g.state].score);
+        // insert scoreboard modal here
+        // ***
+        if (g.states[g.state].score > 0 && !PLAYERS[addr]) {
+          const payload = {
+            name: selfName,
+            addr: addr,
+            score: g.states[g.state].score,
+          };
+          const info = `${selfName} scored ${
+            g.states[g.state].score
+          } points in Snake!`;
+          window.webxdc.sendUpdate({ payload: payload, info: info }, info);
+        } else if (
+          g.states[g.state].score > 0 &&
+          PLAYERS[addr].score < g.states[g.state].score
+        ) {
+          const payload = {
+            name: selfName,
+            addr: addr,
+            score: g.states[g.state].score,
+          };
+          const info = `${selfName} scored ${
+            g.states[g.state].score
+          } points in Snake!`;
+          window.webxdc.sendUpdate({ payload: payload, info: info }, info);
+        }
         g.setState("play");
       }
     }
@@ -864,6 +920,44 @@ Play State
 
 (function () {
   "use strict";
+
+  // function StateEnd() {
+  //   this.name = "end";
+  // }
+
+  // StateEnd.prototype.init = function () {
+  //   console.log("Testing game end");
+  //   this.scoreElem = document.querySelector(".score");
+  //   this.stageElem = document.querySelector(".stage");
+  //   this.dimLong = 28;
+  //   this.dimShort = 16;
+  //   this.padding = 0.25;
+  //   this.boardTiles = new g.Group();
+  //   this.keys = {};
+  //   this.foodCreateTimeout = null;
+  //   this.score = 0;
+  //   this.scoreElem.innerHTML = this.score;
+  //   this.time = new g.Time();
+  //   this.getDimensions();
+  //   if (this.winWidth < this.winHeight) {
+  //     this.rows = this.dimLong;
+  //     this.cols = this.dimShort;
+  //   } else {
+  //     this.rows = this.dimShort;
+  //     this.cols = this.dimLong;
+  //   }
+  //   this.spacing = 1;
+  //   this.grid = new g.Grid(this.cols, this.rows);
+  //   this.resize();
+  //   this.createBoardTiles();
+  //   this.bindEvents();
+  //   this.snake = new g.Snake({
+  //     parentState: this,
+  //   });
+  //   this.food = new g.Food({
+  //     parentState: this,
+  //   });
+  // };
 
   function StatePlay() {
     this.name = "play";
@@ -1012,7 +1106,7 @@ Play State
   StatePlay.prototype.step = function () {
     this.boardTiles.each("update");
     this.boardTiles.each("render");
-    this.snake.update();
+    this.snake.update(); //marcar
     this.snake.render();
     this.food.update();
     this.food.render();
@@ -1027,6 +1121,7 @@ Play State
     this.time = null;
   };
 
+  //g.addState(new StateEnd());
   g.addState(new StatePlay());
 })();
 
@@ -1050,9 +1145,11 @@ Game
   g.time = new g.Time();
 
   g.step = function () {
-    requestAnimationFrame(g.step);
-    g.states[g.state].step();
-    g.time.update();
+    if ((g.state = "play")) {
+      requestAnimationFrame(g.step);
+      g.states[g.state].step();
+      g.time.update();
+    }
   };
 
   window.addEventListener("load", g.step, false);
