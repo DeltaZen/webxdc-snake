@@ -794,8 +794,7 @@ Snake Entity
         console.log("Moriste puto");
         // score
         console.log(g.states[g.state].score);
-        // insert scoreboard modal here
-        // ***
+
         if (g.states[g.state].score > 0 && !PLAYERS[addr]) {
           const payload = {
             name: selfName,
@@ -820,6 +819,10 @@ Snake Entity
           } points in Snake!`;
           window.webxdc.sendUpdate({ payload: payload, info: info }, info);
         }
+
+        // insert scoreboard modal here
+        // ***
+
         g.setState("play");
       }
     }
