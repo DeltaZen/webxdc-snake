@@ -673,7 +673,7 @@ Snake Entity
     this.parentState.keys.right = 0;
     this.parentState.keys.left = 0;
 
-    this.updateTick += this.parentState.time.ndelta;
+    this.updateTick += this.parentState.time.ndelta; // FIXME: this is throwing errors on exit()
     if (this.updateTick >= this.updateTickMax) {
       // reset the update timer to 0, or whatever leftover there is
       this.updateTick = this.updateTick - this.updateTickMax;
@@ -822,8 +822,9 @@ Snake Entity
 
         // insert scoreboard modal here
         // ***
+        handleBoard();
 
-        g.setState("play");
+        //g.setState("play");
       }
     }
 
@@ -1157,3 +1158,52 @@ Game
 
   window.addEventListener("load", g.step, false);
 })();
+
+function handleBoard() {
+  g.setState("play");
+
+  let temElem1 = g.states.play.stageElem.cloneNode(true);
+  g.states.play.stageElem.parentNode.replaceChild(
+    temElem1,
+    g.states.play.stageElem
+  );
+
+  const board = document.querySelector(".board");
+  board.innerHTML = "";
+
+  Object.keys(PLAYERS)
+    .sort((a, b) => PLAYERS[b].score - PLAYERS[a].score)
+    .forEach((player, index) => {
+      const listItem = document.createElement("li");
+      listItem.classList.add("sbItem");
+      const place = document.createElement("span");
+      place.textContent = index + 1;
+      const playerName = document.createElement("span");
+      playerName.textContent =
+        PLAYERS[player].name.length > 10
+          ? `${PLAYERS[player].name.slice(0, 10)}...`
+          : PLAYERS[player].name;
+      const playerScore = document.createElement("span");
+      playerScore.textContent = PLAYERS[player].score;
+      listItem.appendChild(place);
+      listItem.appendChild(playerName);
+      listItem.appendChild(playerScore);
+      board.appendChild(listItem);
+    });
+
+  const startBtn = document.createElement("button");
+  startBtn.classList.add("startBtn");
+  startBtn.textContent = "Play Again";
+  startBtn.onpointerdown = () => {
+    startAgain();
+  };
+  board.appendChild(startBtn);
+}
+
+function startAgain() {
+  const board = document.querySelector(".board");
+  board.innerHTML = "";
+
+  g.setState("play");
+  g.states.play.init();
+}
