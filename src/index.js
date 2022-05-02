@@ -1136,8 +1136,8 @@ Play State
     // add listener for buttons
     const leftBtn = document.getElementById("left");
     const rightBtn = document.getElementById("right");
-    leftBtn.addEventListener("click", _this.moveLeft, false);
-    rightBtn.addEventListener("click", _this.moveRight, false);
+    leftBtn.addEventListener("pointerdown", _this.moveLeft, false);
+    rightBtn.addEventListener("pointerdown", _this.moveRight, false);
   };
 
   StatePlay.prototype.step = function () {
