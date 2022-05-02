@@ -796,10 +796,6 @@ Snake Entity
 
       // check death by eating self
       if (this.deathFlag) {
-        console.log("Moriste puto");
-        // score
-        console.log(g.states[g.state].score);
-
         updateOnDeath().then(() => handleBoard());
       }
     }
@@ -900,44 +896,6 @@ Play State
 
 (function () {
   "use strict";
-
-  // function StateEnd() {
-  //   this.name = "end";
-  // }
-
-  // StateEnd.prototype.init = function () {
-  //   console.log("Testing game end");
-  //   this.scoreElem = document.querySelector(".score");
-  //   this.stageElem = document.querySelector(".stage");
-  //   this.dimLong = 28;
-  //   this.dimShort = 16;
-  //   this.padding = 0.25;
-  //   this.boardTiles = new g.Group();
-  //   this.keys = {};
-  //   this.foodCreateTimeout = null;
-  //   this.score = 0;
-  //   this.scoreElem.innerHTML = this.score;
-  //   this.time = new g.Time();
-  //   this.getDimensions();
-  //   if (this.winWidth < this.winHeight) {
-  //     this.rows = this.dimLong;
-  //     this.cols = this.dimShort;
-  //   } else {
-  //     this.rows = this.dimShort;
-  //     this.cols = this.dimLong;
-  //   }
-  //   this.spacing = 1;
-  //   this.grid = new g.Grid(this.cols, this.rows);
-  //   this.resize();
-  //   this.createBoardTiles();
-  //   this.bindEvents();
-  //   this.snake = new g.Snake({
-  //     parentState: this,
-  //   });
-  //   this.food = new g.Food({
-  //     parentState: this,
-  //   });
-  // };
 
   function StatePlay() {
     this.name = "play";
@@ -1083,7 +1041,6 @@ Play State
   StatePlay.prototype.moveLeft = function (e) {
     e.preventDefault();
     var _this = g.currentState();
-    console.log(_this.snake.dir);
     switch (_this.snake.dir) {
       case "w":
         _this.snake.dir = "s";
@@ -1105,7 +1062,6 @@ Play State
   StatePlay.prototype.moveRight = function (e) {
     e.preventDefault();
     var _this = g.currentState();
-    console.log(_this.snake.dir);
     switch (_this.snake.dir) {
       case "w":
         _this.snake.dir = "n";
