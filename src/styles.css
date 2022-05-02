@@ -202,3 +202,25 @@ Scoreboard
 .current {
   background: rgba(0, 0, 0, 0.5); 
 }
+
+.controls {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+#left, #right {
+  padding: 0.5rem;
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 0.5rem;
+}

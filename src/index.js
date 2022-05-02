@@ -632,6 +632,7 @@ Snake Entity
     }
   };
 
+  // TODO: this works for keyboard input, make it work for buttons
   g.Snake.prototype.update = function () {
     if (this.parentState.keys.up) {
       if (
@@ -1084,10 +1085,59 @@ Play State
     }
   };
 
+  StatePlay.prototype.moveLeft = function (e) {
+    e.preventDefault();
+    var _this = g.currentState();
+    console.log(_this.snake.dir);
+    switch (_this.snake.dir) {
+      case "w":
+        _this.snake.dir = "s";
+        break;
+      case "s":
+        _this.snake.dir = "e";
+        break;
+      case "e":
+        _this.snake.dir = "n";
+        break;
+      case "n":
+        _this.snake.dir = "w";
+        break;
+      default:
+        break;
+    }
+  };
+
+  StatePlay.prototype.moveRight = function (e) {
+    e.preventDefault();
+    var _this = g.currentState();
+    console.log(_this.snake.dir);
+    switch (_this.snake.dir) {
+      case "w":
+        _this.snake.dir = "n";
+        break;
+      case "s":
+        _this.snake.dir = "w";
+        break;
+      case "e":
+        _this.snake.dir = "s";
+        break;
+      case "n":
+        _this.snake.dir = "e";
+        break;
+      default:
+        break;
+    }
+  };
+
   StatePlay.prototype.bindEvents = function () {
     var _this = g.currentState();
     window.addEventListener("keydown", _this.keydown, false);
     window.addEventListener("resize", _this.resize, false);
+    // add listener for buttons
+    const leftBtn = document.getElementById("left");
+    const rightBtn = document.getElementById("right");
+    leftBtn.addEventListener("click", _this.moveLeft, false);
+    rightBtn.addEventListener("click", _this.moveRight, false);
   };
 
   StatePlay.prototype.step = function () {
@@ -1162,18 +1212,6 @@ function handleBoard() {
   listHeader.classList.add("sbItem");
   listHeader.classList.add("header");
   listHeader.textContent = "Snake";
-  // const placeHeader = document.createElement("span");
-  // placeHeader.classList.add("current");
-  // placeHeader.textContent = "#";
-  // const playerNameHeader = document.createElement("span");
-  // playerNameHeader.classList.add("current");
-  // playerNameHeader.textContent = "Name";
-  // const scoreHeader = document.createElement("span");
-  // scoreHeader.classList.add("current");
-  // scoreHeader.textContent = "Score";
-  // listHeader.appendChild(placeHeader);
-  // listHeader.appendChild(playerNameHeader);
-  // listHeader.appendChild(scoreHeader);
   board.appendChild(listHeader);
 
   Object.keys(PLAYERS)
@@ -1220,7 +1258,7 @@ function startAgain() {
 }
 
 async function updateOnDeath() {
-  if (g.states[g.state].score > 0 && !PLAYERS[addr]) {
+  if (g && g.states[g.state].score > 0 && !PLAYERS[addr]) {
     const payload = {
       name: selfName,
       addr: addr,
@@ -1231,6 +1269,7 @@ async function updateOnDeath() {
     } points in Snake!`;
     window.webxdc.sendUpdate({ payload: payload, info: info }, info);
   } else if (
+    g &&
     g.states[g.state].score > 0 &&
     PLAYERS[addr].score < g.states[g.state].score
   ) {
