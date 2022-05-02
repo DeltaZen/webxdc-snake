@@ -206,6 +206,11 @@ Scoreboard
   text-align: left;
 }
 
+.playerScore{
+  text-align: center;
+  min-width: 2rem;
+}
+
 .startBtn {
   margin-top: 2rem;
   margin-bottom: 1rem;
