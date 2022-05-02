@@ -961,7 +961,7 @@ Play State
     this.score = 0;
     this.scoreElem.innerHTML = this.score;
     this.scoreElem.style.display = "block";
-    this.controlElem.style.display = "block";
+    this.controlElem.style.display = "flex";
     this.time = new g.Time();
     this.getDimensions();
     if (this.winWidth < this.winHeight) {
