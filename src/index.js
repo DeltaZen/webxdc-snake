@@ -363,39 +363,40 @@ Board Tile Entity
         this.classes[k]--;
       }
     }
+    // this removes hint paths
 
-    if (
-      this.parentState.food.tile.col == this.col ||
-      this.parentState.food.tile.row == this.row
-    ) {
-      this.classes.path = 1;
-      if (this.col < this.parentState.food.tile.col) {
-        this.classes.right = 1;
-      } else {
-        this.classes.right = 0;
-      }
-      if (this.col > this.parentState.food.tile.col) {
-        this.classes.left = 1;
-      } else {
-        this.classes.left = 0;
-      }
-      if (this.row > this.parentState.food.tile.row) {
-        this.classes.up = 1;
-      } else {
-        this.classes.up = 0;
-      }
-      if (this.row < this.parentState.food.tile.row) {
-        this.classes.down = 1;
-      } else {
-        this.classes.down = 0;
-      }
-    } else {
-      this.classes.path = 0;
-    }
+    // if (
+    //   this.parentState.food.tile.col == this.col ||
+    //   this.parentState.food.tile.row == this.row
+    // ) {
+    //   this.classes.path = 1;
+    //   if (this.col < this.parentState.food.tile.col) {
+    //     this.classes.right = 1;
+    //   } else {
+    //     this.classes.right = 0;
+    //   }
+    //   if (this.col > this.parentState.food.tile.col) {
+    //     this.classes.left = 1;
+    //   } else {
+    //     this.classes.left = 0;
+    //   }
+    //   if (this.row > this.parentState.food.tile.row) {
+    //     this.classes.up = 1;
+    //   } else {
+    //     this.classes.up = 0;
+    //   }
+    //   if (this.row < this.parentState.food.tile.row) {
+    //     this.classes.down = 1;
+    //   } else {
+    //     this.classes.down = 0;
+    //   }
+    // } else {
+    //   this.classes.path = 0;
+    // }
 
-    if (this.parentState.food.eaten) {
-      this.classes.path = 0;
-    }
+    // if (this.parentState.food.eaten) {
+    //   this.classes.path = 0;
+    // }
   };
 
   g.BoardTile.prototype.updateDimensions = function () {
@@ -677,7 +678,7 @@ Snake Entity
     this.parentState.keys.right = 0;
     this.parentState.keys.left = 0;
 
-    this.updateTick += this.parentState.time.ndelta; // FIXME: this is throwing errors on exit()
+    this.updateTick += this.parentState.time.ndelta;
     if (this.updateTick >= this.updateTickMax) {
       // reset the update timer to 0, or whatever leftover there is
       this.updateTick = this.updateTick - this.updateTickMax;
@@ -800,12 +801,6 @@ Snake Entity
         console.log(g.states[g.state].score);
 
         updateOnDeath().then(() => handleBoard());
-
-        // insert scoreboard modal here
-        // ***
-        //handleBoard();
-
-        //g.setState("play");
       }
     }
 
@@ -1204,16 +1199,17 @@ function handleBoard() {
   g.states.play.scoreElem.style.display = "none";
   g.states.play.controlElem.style.display = "none";
 
-  const board = document.querySelector(".board");
+  const board = document.querySelector(".boardContainer");
   board.innerHTML = "";
 
   // crear encabezados de la tabla
-  const listHeader = document.createElement("li");
+  const listHeader = document.createElement("h1");
   listHeader.classList.add("sbItem");
   listHeader.classList.add("header");
   listHeader.textContent = "Snake";
   board.appendChild(listHeader);
-
+  const list = document.createElement("ul");
+  list.classList.add("board");
   Object.keys(PLAYERS)
     .sort((a, b) => PLAYERS[b].score - PLAYERS[a].score)
     .forEach((player, index) => {
@@ -1237,9 +1233,9 @@ function handleBoard() {
       listItem.appendChild(place);
       listItem.appendChild(playerName);
       listItem.appendChild(playerScore);
-      board.appendChild(listItem);
+      list.appendChild(listItem);
     });
-
+  board.appendChild(list);
   const startBtn = document.createElement("button");
   startBtn.classList.add("startBtn");
   // Add svg icon
@@ -1269,7 +1265,7 @@ function handleBoard() {
 }
 
 function startAgain() {
-  const board = document.querySelector(".board");
+  const board = document.querySelector(".boardContainer");
   board.innerHTML = "";
 
   g.setState("play");
