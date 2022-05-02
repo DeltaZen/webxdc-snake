@@ -174,8 +174,31 @@ Scoreboard
   padding-right: 0.25rem;
 }
 
+.place::after {
+  content: ".";
+}
+
+.playerName {
+  width: 100%;
+  text-align: left;
+}
+
 .startBtn {
   margin-top: 2rem;
   margin-bottom: 1rem;
   padding: 0.5rem;
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+}
+
+.header {
+  font-size: 2.5rem;
+  font-weight: bold;
+  display: block;
+}
+
+.current {
+  background: rgba(0, 0, 0, 0.5); 
 }

@@ -23,6 +23,9 @@ const selfName = window.webxdc.selfName;
       //   this.setState({});  // refresh scoreboard
       // }
     }
+    if (update.serial === update.max_serial) {
+      updateOnDeath().then(() => handleBoard());
+    }
   }, 0);
 })();
 
@@ -117,7 +120,7 @@ Core
 
 ================================================*/
 
-g = {};
+var g = {};
 
 (function () {
   "use strict";
@@ -795,34 +798,11 @@ Snake Entity
         // score
         console.log(g.states[g.state].score);
 
-        if (g.states[g.state].score > 0 && !PLAYERS[addr]) {
-          const payload = {
-            name: selfName,
-            addr: addr,
-            score: g.states[g.state].score,
-          };
-          const info = `${selfName} scored ${
-            g.states[g.state].score
-          } points in Snake!`;
-          window.webxdc.sendUpdate({ payload: payload, info: info }, info);
-        } else if (
-          g.states[g.state].score > 0 &&
-          PLAYERS[addr].score < g.states[g.state].score
-        ) {
-          const payload = {
-            name: selfName,
-            addr: addr,
-            score: g.states[g.state].score,
-          };
-          const info = `${selfName} scored ${
-            g.states[g.state].score
-          } points in Snake!`;
-          window.webxdc.sendUpdate({ payload: payload, info: info }, info);
-        }
+        updateOnDeath().then(() => handleBoard());
 
         // insert scoreboard modal here
         // ***
-        handleBoard();
+        //handleBoard();
 
         //g.setState("play");
       }
@@ -970,6 +950,7 @@ Play State
   StatePlay.prototype.init = function () {
     this.scoreElem = document.querySelector(".score");
     this.stageElem = document.querySelector(".stage");
+    this.controlElem = document.querySelector(".controls");
     this.dimLong = 28;
     this.dimShort = 16;
     this.padding = 0.25;
@@ -978,6 +959,8 @@ Play State
     this.foodCreateTimeout = null;
     this.score = 0;
     this.scoreElem.innerHTML = this.score;
+    this.scoreElem.style.display = "block";
+    this.controlElem.style.display = "block";
     this.time = new g.Time();
     this.getDimensions();
     if (this.winWidth < this.winHeight) {
@@ -1168,22 +1151,50 @@ function handleBoard() {
     g.states.play.stageElem
   );
 
+  g.states.play.scoreElem.style.display = "none";
+  g.states.play.controlElem.style.display = "none";
+
   const board = document.querySelector(".board");
   board.innerHTML = "";
+
+  // crear encabezados de la tabla
+  const listHeader = document.createElement("li");
+  listHeader.classList.add("sbItem");
+  listHeader.classList.add("header");
+  listHeader.textContent = "Snake";
+  // const placeHeader = document.createElement("span");
+  // placeHeader.classList.add("current");
+  // placeHeader.textContent = "#";
+  // const playerNameHeader = document.createElement("span");
+  // playerNameHeader.classList.add("current");
+  // playerNameHeader.textContent = "Name";
+  // const scoreHeader = document.createElement("span");
+  // scoreHeader.classList.add("current");
+  // scoreHeader.textContent = "Score";
+  // listHeader.appendChild(placeHeader);
+  // listHeader.appendChild(playerNameHeader);
+  // listHeader.appendChild(scoreHeader);
+  board.appendChild(listHeader);
 
   Object.keys(PLAYERS)
     .sort((a, b) => PLAYERS[b].score - PLAYERS[a].score)
     .forEach((player, index) => {
       const listItem = document.createElement("li");
       listItem.classList.add("sbItem");
+      if (player === addr) {
+        listItem.classList.add("current");
+      }
       const place = document.createElement("span");
+      place.classList.add("place");
       place.textContent = index + 1;
       const playerName = document.createElement("span");
+      playerName.classList.add("playerName");
       playerName.textContent =
         PLAYERS[player].name.length > 10
           ? `${PLAYERS[player].name.slice(0, 10)}...`
           : PLAYERS[player].name;
       const playerScore = document.createElement("span");
+      playerScore.classList.add("playerScore");
       playerScore.textContent = PLAYERS[player].score;
       listItem.appendChild(place);
       listItem.appendChild(playerName);
@@ -1206,4 +1217,31 @@ function startAgain() {
 
   g.setState("play");
   g.states.play.init();
+}
+
+async function updateOnDeath() {
+  if (g.states[g.state].score > 0 && !PLAYERS[addr]) {
+    const payload = {
+      name: selfName,
+      addr: addr,
+      score: g.states[g.state].score,
+    };
+    const info = `${selfName} scored ${
+      g.states[g.state].score
+    } points in Snake!`;
+    window.webxdc.sendUpdate({ payload: payload, info: info }, info);
+  } else if (
+    g.states[g.state].score > 0 &&
+    PLAYERS[addr].score < g.states[g.state].score
+  ) {
+    const payload = {
+      name: selfName,
+      addr: addr,
+      score: g.states[g.state].score,
+    };
+    const info = `${selfName} scored ${
+      g.states[g.state].score
+    } points in Snake!`;
+    window.webxdc.sendUpdate({ payload: payload, info: info }, info);
+  }
 }
