@@ -146,11 +146,17 @@ Scoreboard
 
 ================================================*/
 
+.boardContainer{
+  position: relative;
+  /* width: 100%; */
+  height: 100vh;
+}
+
 .board {
-  display: flex;
+  /* display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  align-items: center; */
   margin: auto;
   padding: 5px;
   text-align: center;
@@ -160,6 +166,16 @@ Scoreboard
   transform: translate(-50%, -50%);
   list-style: none;
   z-index: 20;
+  height: 50vh;
+  overflow-y: auto;
+}
+
+.board:first-child{
+  margin-top: 0.5rem;
+}
+
+.board button {
+  margin-top: auto;
 }
 
 .sbItem {
@@ -168,11 +184,17 @@ Scoreboard
   justify-content: space-between;
   text-align: center;
   min-width: 50vw;
+  max-width: 95vw;
 }
 
 .sbItem span {
   padding-left: 0.25rem;
   padding-right: 0.25rem;
+}
+
+.place{
+  text-align: right;
+  min-width: 2rem;
 }
 
 .place::after {
@@ -192,12 +214,20 @@ Scoreboard
   color: #fff;
   border: none;
   border-radius: 10px;
+  position: fixed;
+  bottom: .5rem;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .header {
   font-size: 2.5rem;
   font-weight: bold;
   display: block;
+  position: absolute;
+  top: 0.5rem;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .current {
@@ -209,25 +239,26 @@ Scoreboard
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  margin: 1rem;
+  /* margin: 1rem; */
   position: absolute;
    bottom: .5rem;
   /* left: 50%;
   transform: translateX(-50%); */
   z-index: 20;
-  width: calc(100% - 2rem);
+  width: 100%;
 }
 
 
 
 #left, #right {
-  padding: 0.5rem;
   background: rgba(0, 0, 0, 0.5);
   color: #fff;
   border: none;
   border-radius: 10px;
   padding: 0.5rem;
   z-index: 25;
+  margin-left: 2rem;
+  margin-right: 2rem;
 }
 
 .h-6 {
