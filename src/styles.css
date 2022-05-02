@@ -211,7 +211,7 @@ Scoreboard
   margin-top: 1rem;
   margin-bottom: 1rem;
   position: absolute;
-  bottom: 2rem;
+  bottom: .5rem;
   left: 50%;
   transform: translateX(-50%);
 }
