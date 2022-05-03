@@ -29,7 +29,7 @@ let playing = false;
     }
 
     if (update.serial === update.max_serial && !playing) {
-      console.log("update board");
+      console.log("is first time? ", firstTime);
       updateOnDeath().then(() => {
         // if (player.addr === addr) {
         //   console.log("current player update => handleBoard");
@@ -37,6 +37,7 @@ let playing = false;
         // } else {
         //   console.log("other score => do nothing");
         // }
+
         handleBoard();
       });
     }
@@ -647,7 +648,6 @@ Snake Entity
     }
   };
 
-  // TODO: this works for keyboard input, make it work for buttons
   g.Snake.prototype.update = function () {
     if (this.parentState.keys.up) {
       if (
@@ -1262,7 +1262,7 @@ function startAgain() {
   const board = document.querySelector(".boardContainer");
   board.innerHTML = "";
 
-  playing = true;
+  //playing = true;
   g.setState("play");
   g.states.play.init();
 }
