@@ -17,6 +17,7 @@ let playing = false;
   window.webxdc.setUpdateListener((update) => {
     const player = update.payload;
     const local_best = PLAYERS[player.addr] ? PLAYERS[player.addr].score : 0;
+
     if (local_best < player.score) {
       PLAYERS[player.addr] = {
         name: player.name,
@@ -26,8 +27,18 @@ let playing = false;
       //   this.setState({});  // refresh scoreboard
       // }
     }
-    if (update.serial === update.max_serial) {
-      updateOnDeath().then(() => handleBoard());
+
+    if (update.serial === update.max_serial && !playing) {
+      console.log("update board");
+      updateOnDeath().then(() => {
+        // if (player.addr === addr) {
+        //   console.log("current player update => handleBoard");
+        //   handleBoard();
+        // } else {
+        //   console.log("other score => do nothing");
+        // }
+        handleBoard();
+      });
     }
   }, 0);
 })();
@@ -758,6 +769,11 @@ Snake Entity
         "snake"
       ) {
         this.deathFlag = 1;
+        // if (PLAYERS[addr]) {
+        //   PLAYERS[addr].playing = false;
+        // }
+        // console.log(PLAYERS);
+        playing = false;
         clearTimeout(this.foodCreateTimeout);
       }
 
@@ -906,6 +922,7 @@ Play State
   }
 
   StatePlay.prototype.init = function () {
+    playing = true;
     this.scoreElem = document.querySelector(".score");
     this.stageElem = document.querySelector(".stage");
     this.controlElem = document.querySelector(".controls");
@@ -939,6 +956,9 @@ Play State
     this.food = new g.Food({
       parentState: this,
     });
+    // if (PLAYERS[addr]) {
+    //   PLAYERS[addr].playing = true;
+    // }
   };
 
   StatePlay.prototype.getDimensions = function () {
@@ -1148,10 +1168,9 @@ Game
 })();
 
 function handleBoard() {
-  if (!playing) {
-    g.setState("play");
-  }
+  console.log("'playing' variable during handleBoard: ", playing);
 
+  g.setState("play");
   let temElem1 = g.states.play.stageElem.cloneNode(true);
   g.states.play.stageElem.parentNode.replaceChild(
     temElem1,
@@ -1243,6 +1262,7 @@ function startAgain() {
   const board = document.querySelector(".boardContainer");
   board.innerHTML = "";
 
+  playing = true;
   g.setState("play");
   g.states.play.init();
 }
@@ -1254,6 +1274,7 @@ async function updateOnDeath() {
       addr: addr,
       score: g.states[g.state].score,
     };
+    //PLAYERS[addr] = payload;
     const info = `${selfName} scored ${
       g.states[g.state].score
     } points in Snake!`;
