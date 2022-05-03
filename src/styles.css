@@ -40,9 +40,9 @@ body {
   text-align: center;
 }
 
-.score::before {
+/* .score::before {
   content: "Score: ";
-}
+} */
 
 /*================================================
   
