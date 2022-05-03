@@ -9,6 +9,8 @@ let PLAYERS = {};
 const addr = window.webxdc.selfAddr;
 const selfName = window.webxdc.selfName;
 
+let firstTime = true;
+
 (function () {
   "use strict";
   window.webxdc.setUpdateListener((update) => {
@@ -1194,24 +1196,37 @@ function handleBoard() {
   board.appendChild(list);
   const startBtn = document.createElement("button");
   startBtn.classList.add("startBtn");
-  // Add svg icon
-  //   <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-  //   <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-  // </svg>
+  // change this svg for a img, and change src
+  // const img = document.createElement("img");
+  // img.src = "./svg/play.svg";
+  // img.classList.add(["h-6", "w-6"]);
+
   const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
   svg.setAttribute("class", "h-6 w-6");
   svg.setAttribute("fill", "none");
   svg.setAttribute("viewBox", "0 0 24 24");
   svg.setAttribute("stroke", "currentColor");
   svg.setAttribute("stroke-width", "2");
-  const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-  path.setAttribute("stroke-linecap", "round");
-  path.setAttribute("stroke-linejoin", "round");
-  path.setAttribute(
-    "d",
-    "M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
-  );
-  svg.appendChild(path);
+  if (firstTime) {
+    const path1 = document.createElementNS(
+      "http://www.w3.org/2000/svg",
+      "path"
+    );
+    path1.setAttribute("d", "M15 12.3301L9 16.6603L9 8L15 12.3301Z");
+    path1.setAttribute("fill", "currentColor");
+    svg.appendChild(path1);
+    firstTime = false;
+  } else {
+    const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    path.setAttribute("stroke-linecap", "round");
+    path.setAttribute("stroke-linejoin", "round");
+    path.setAttribute(
+      "d",
+      "M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+    );
+    svg.appendChild(path);
+  }
+
   startBtn.appendChild(svg);
   //startBtn.textContent = "Play Again";
   startBtn.onpointerdown = () => {
