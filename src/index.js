@@ -10,6 +10,7 @@ const addr = window.webxdc.selfAddr;
 const selfName = window.webxdc.selfName;
 
 let firstTime = true;
+let playing = false;
 
 (function () {
   "use strict";
@@ -798,6 +799,7 @@ Snake Entity
 
       // check death by eating self
       if (this.deathFlag) {
+        playing = false;
         updateOnDeath().then(() => handleBoard());
       }
     }
@@ -1146,7 +1148,9 @@ Game
 })();
 
 function handleBoard() {
-  g.setState("play");
+  if (!playing) {
+    g.setState("play");
+  }
 
   let temElem1 = g.states.play.stageElem.cloneNode(true);
   g.states.play.stageElem.parentNode.replaceChild(
