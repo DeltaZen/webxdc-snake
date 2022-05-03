@@ -8,13 +8,13 @@ General
   box-sizing: border-box;
 }
 
-html,
-body {
+html{
   background-color: #000;
   height: 100%;
 }
 
 body {
+  height: 100%;
   background: #222;
   background: radial-gradient(#333, #111);
   background-position: center center;
