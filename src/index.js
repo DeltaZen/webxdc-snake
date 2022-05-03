@@ -23,21 +23,11 @@ let playing = false;
         name: player.name,
         score: player.score,
       };
-      // if (update.serial === update.max_serial) {
-      //   this.setState({});  // refresh scoreboard
-      // }
     }
 
     if (update.serial === update.max_serial && !playing) {
       console.log("is first time? ", firstTime);
       updateOnDeath().then(() => {
-        // if (player.addr === addr) {
-        //   console.log("current player update => handleBoard");
-        //   handleBoard();
-        // } else {
-        //   console.log("other score => do nothing");
-        // }
-
         handleBoard();
       });
     }
@@ -769,10 +759,6 @@ Snake Entity
         "snake"
       ) {
         this.deathFlag = 1;
-        // if (PLAYERS[addr]) {
-        //   PLAYERS[addr].playing = false;
-        // }
-        // console.log(PLAYERS);
         playing = false;
         clearTimeout(this.foodCreateTimeout);
       }
@@ -956,9 +942,6 @@ Play State
     this.food = new g.Food({
       parentState: this,
     });
-    // if (PLAYERS[addr]) {
-    //   PLAYERS[addr].playing = true;
-    // }
   };
 
   StatePlay.prototype.getDimensions = function () {
@@ -1219,10 +1202,6 @@ function handleBoard() {
   board.appendChild(list);
   const startBtn = document.createElement("button");
   startBtn.classList.add("startBtn");
-  // change this svg for a img, and change src
-  // const img = document.createElement("img");
-  // img.src = "./svg/play.svg";
-  // img.classList.add(["h-6", "w-6"]);
 
   const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
   svg.setAttribute("class", "h-6 w-6");
@@ -1251,7 +1230,6 @@ function handleBoard() {
   }
 
   startBtn.appendChild(svg);
-  //startBtn.textContent = "Play Again";
   startBtn.onpointerdown = () => {
     startAgain();
   };
@@ -1262,7 +1240,6 @@ function startAgain() {
   const board = document.querySelector(".boardContainer");
   board.innerHTML = "";
 
-  //playing = true;
   g.setState("play");
   g.states.play.init();
 }
@@ -1274,7 +1251,6 @@ async function updateOnDeath() {
       addr: addr,
       score: g.states[g.state].score,
     };
-    //PLAYERS[addr] = payload;
     const info = `${selfName} scored ${
       g.states[g.state].score
     } points in Snake!`;
