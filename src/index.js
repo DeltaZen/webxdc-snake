@@ -16,14 +16,11 @@ let playing = false;
   "use strict";
   window.webxdc.setUpdateListener((update) => {
     const player = update.payload;
-    const local_best = PLAYERS[player.addr] ? PLAYERS[player.addr].score : 0;
 
-    if (local_best < player.score) {
-      PLAYERS[player.addr] = {
-        name: player.name,
-        score: player.score,
-      };
-    }
+    PLAYERS[player.addr] = {
+      name: player.name,
+      score: player.score,
+    };
 
     if (update.serial === update.max_serial && !playing) {
       console.log("is first time? ", firstTime);
@@ -1254,12 +1251,27 @@ async function updateOnDeath() {
     const info = `${selfName} scored ${
       g.states[g.state].score
     } points in Snake!`;
+
+    // setting player info on death
+    PLAYERS[addr] = {
+      name: selfName,
+      score: g.states[g.state].score,
+    };
+    console.log(addr + " player info created");
+
     window.webxdc.sendUpdate({ payload: payload, info: info }, info);
   } else if (
     g &&
     g.states[g.state].score > 0 &&
     PLAYERS[addr].score < g.states[g.state].score
   ) {
+    // setting player info on death
+    PLAYERS[addr] = {
+      name: selfName,
+      score: g.states[g.state].score,
+    };
+    console.log(addr + " player info updated");
+
     const payload = {
       name: selfName,
       addr: addr,
@@ -1271,3 +1283,5 @@ async function updateOnDeath() {
     window.webxdc.sendUpdate({ payload: payload, info: info }, info);
   }
 }
+
+handleBoard();
