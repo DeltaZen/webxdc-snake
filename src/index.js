@@ -23,7 +23,6 @@ let playing = false;
     };
 
     if (update.serial === update.max_serial && !playing) {
-      console.log("is first time? ", firstTime);
       updateOnDeath().then(() => {
         handleBoard();
       });
@@ -1076,7 +1075,6 @@ Play State
       }
     }
     if (e === 32 && !playing) {
-      console.log(playing);
       startAgain();
     }
   };
@@ -1191,7 +1189,6 @@ Game
 })();
 
 function handleBoard() {
-  console.log("'playing' variable during handleBoard: ", playing);
   const lScore = g.states.play.score;
   g.setState("play");
   let temElem1 = g.states.play.stageElem.cloneNode(true);
@@ -1306,8 +1303,6 @@ async function updateOnDeath() {
       name: selfName,
       score: g.states[g.state].score,
     };
-    console.log(addr + " player info created");
-
     window.webxdc.sendUpdate({ payload: payload, info: info }, info);
   } else if (
     g &&
@@ -1319,8 +1314,6 @@ async function updateOnDeath() {
       name: selfName,
       score: g.states[g.state].score,
     };
-    console.log(addr + " player info updated");
-
     const payload = {
       name: selfName,
       addr: addr,
