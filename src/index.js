@@ -1189,6 +1189,7 @@ Game
 })();
 
 function handleBoard() {
+  console.log(g.states.play);
   const lScore = g.states.play.score;
   g.setState("play");
   let temElem1 = g.states.play.stageElem.cloneNode(true);
@@ -1202,11 +1203,6 @@ function handleBoard() {
 
   const board = document.querySelector(".boardContainer");
   board.innerHTML = "";
-  // crear texto de última puntuación
-  const lastScore = document.createElement("p");
-  lastScore.classList.add("lastScore");
-  lastScore.innerHTML = "Last score: " + lScore;
-  board.appendChild(lastScore);
 
   // crear encabezados de la tabla
   const listHeader = document.createElement("h1");
@@ -1214,6 +1210,15 @@ function handleBoard() {
   listHeader.classList.add("header");
   listHeader.textContent = "Snake";
   board.appendChild(listHeader);
+
+  // crear texto de última puntuación
+  if (!firstTime && PLAYERS[addr]) {
+    const lastScore = document.createElement("p");
+    lastScore.classList.add("lastScore");
+    lastScore.innerHTML = "Last score: " + lScore;
+    board.appendChild(lastScore);
+  }
+
   const list = document.createElement("ul");
   list.classList.add("board");
   Object.keys(PLAYERS)
@@ -1251,7 +1256,7 @@ function handleBoard() {
   svg.setAttribute("viewBox", "0 0 24 24");
   svg.setAttribute("stroke", "currentColor");
   svg.setAttribute("stroke-width", "2");
-  if (firstTime) {
+  if (firstTime || !PLAYERS[addr]) {
     const path1 = document.createElementNS(
       "http://www.w3.org/2000/svg",
       "path"
