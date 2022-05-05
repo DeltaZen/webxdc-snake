@@ -1024,21 +1024,56 @@ Play State
     g.currentState().keys.left = 0;
   };
 
+  // modificar para que sólo funciones con las flechas de izquierda y derecha
   StatePlay.prototype.keydown = function (e) {
     e.preventDefault();
     var e = e.keyCode ? e.keyCode : e.which,
       _this = g.currentState();
-    if (e === 38 || e === 87) {
-      _this.upOn();
-    }
+    // if (e === 38 || e === 87) {
+    //   _this.upOn();
+    // }
     if (e === 39 || e === 68) {
-      _this.rightOn();
+      // right arrow
+      //_this.rightOn();
+      switch (_this.snake.dir) {
+        case "w":
+          _this.snake.dir = "n";
+          break;
+        case "s":
+          _this.snake.dir = "w";
+          break;
+        case "e":
+          _this.snake.dir = "s";
+          break;
+        case "n":
+          _this.snake.dir = "e";
+          break;
+        default:
+          break;
+      }
     }
-    if (e === 40 || e === 83) {
-      _this.downOn();
-    }
+    // if (e === 40 || e === 83) {
+    //   _this.downOn();
+    // }
     if (e === 37 || e === 65) {
-      _this.leftOn();
+      // left arrow
+      // _this.leftOn();
+      switch (_this.snake.dir) {
+        case "w":
+          _this.snake.dir = "s";
+          break;
+        case "s":
+          _this.snake.dir = "e";
+          break;
+        case "e":
+          _this.snake.dir = "n";
+          break;
+        case "n":
+          _this.snake.dir = "w";
+          break;
+        default:
+          break;
+      }
     }
   };
 
@@ -1108,6 +1143,10 @@ Play State
   StatePlay.prototype.exit = function () {
     window.removeEventListener("keydown", this.keydown, false);
     window.removeEventListener("resize", this.resize, false);
+    const leftBtn = document.getElementById("left");
+    const rightBtn = document.getElementById("right");
+    leftBtn.removeEventListener("pointerdown", this.moveLeft, false);
+    rightBtn.removeEventListener("pointerdown", this.moveRight, false);
     this.stageElem.innerHTML = "";
     this.grid.tiles = null;
     this.time = null;
