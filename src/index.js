@@ -1075,6 +1075,10 @@ Play State
           break;
       }
     }
+    if (e === 32 && !playing) {
+      console.log(playing);
+      startAgain();
+    }
   };
 
   StatePlay.prototype.moveLeft = function (e) {
@@ -1270,6 +1274,7 @@ function handleBoard() {
     startAgain();
   };
   board.appendChild(startBtn);
+  playing = false;
 }
 
 function startAgain() {
