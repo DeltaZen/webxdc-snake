@@ -306,3 +306,7 @@ Scoreboard
     font-size: 8rem;
   }
 }
+
+.lastScore {
+  color: rgba(255, 255, 255, 0.5)
+}

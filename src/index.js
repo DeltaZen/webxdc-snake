@@ -1192,7 +1192,7 @@ Game
 
 function handleBoard() {
   console.log("'playing' variable during handleBoard: ", playing);
-
+  const lScore = g.states.play.score;
   g.setState("play");
   let temElem1 = g.states.play.stageElem.cloneNode(true);
   g.states.play.stageElem.parentNode.replaceChild(
@@ -1205,6 +1205,11 @@ function handleBoard() {
 
   const board = document.querySelector(".boardContainer");
   board.innerHTML = "";
+  // crear texto de última puntuación
+  const lastScore = document.createElement("p");
+  lastScore.classList.add("lastScore");
+  lastScore.innerHTML = "Last score: " + lScore;
+  board.appendChild(lastScore);
 
   // crear encabezados de la tabla
   const listHeader = document.createElement("h1");
