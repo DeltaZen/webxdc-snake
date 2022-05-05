@@ -221,7 +221,8 @@ Scoreboard
   margin-top: 2rem;
   margin-bottom: 1rem;
   padding: 0.5rem;
-  background: rgba(0, 0, 0, 0.5);
+  /* background: rgba(0, 0, 0, 0.5); */
+  background: none;
   color: #fff;
   border: none;
   border-radius: 10px;
@@ -264,7 +265,8 @@ Scoreboard
 
 
 #left, #right {
-  background: rgba(0, 0, 0, 0.5);
+  /* background: rgba(0, 0, 0, 0.5); */
+  background: none;
   color: #fff;
   border: none;
   border-radius: 10px;
