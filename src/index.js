@@ -11,6 +11,7 @@ const selfName = window.webxdc.selfName;
 
 let firstTime = true;
 let playing = false;
+let lScore = 0;
 
 (function () {
   "use strict";
@@ -1189,8 +1190,6 @@ Game
 })();
 
 function handleBoard() {
-  console.log(g.states.play);
-  const lScore = g.states.play.score;
   g.setState("play");
   let temElem1 = g.states.play.stageElem.cloneNode(true);
   g.states.play.stageElem.parentNode.replaceChild(
@@ -1293,6 +1292,7 @@ function startAgain() {
 }
 
 async function updateOnDeath() {
+  lScore = g.states[g.state].score || 0;
   if (g && g.states[g.state].score > 0 && !PLAYERS[addr]) {
     const payload = {
       name: selfName,
