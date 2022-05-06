@@ -1211,7 +1211,7 @@ function handleBoard() {
   board.appendChild(listHeader);
 
   // crear texto de última puntuación
-  if (!firstTime && PLAYERS[addr]) {
+  if (!firstTime && PLAYERS[addr] && lScore > 0) {
     const lastScore = document.createElement("p");
     lastScore.classList.add("lastScore");
     lastScore.innerHTML = "Last score: " + lScore;
@@ -1292,7 +1292,7 @@ function startAgain() {
 }
 
 async function updateOnDeath() {
-  lScore = g.states[g.state].score || 0;
+  lScore = g.states[g.state].score || lScore;
   if (g && g.states[g.state].score > 0 && !PLAYERS[addr]) {
     const payload = {
       name: selfName,
