@@ -700,9 +700,11 @@ Snake Entity
       this.last = this.tiles.pop();
       this.parentState.stageElem.removeChild(this.last.elem);
 
-      this.parentState.boardTiles.collection[
-        this.last.col + this.last.row * this.parentState.cols
-      ].classes.pressed = 2;
+      // this removes trailing:
+
+      // this.parentState.boardTiles.collection[
+      //   this.last.col + this.last.row * this.parentState.cols
+      // ].classes.pressed = 2;
 
       // sync data grid of the play state
       var i = this.tiles.length;
