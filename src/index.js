@@ -1032,17 +1032,17 @@ Play State
     var e = e.keyCode ? e.keyCode : e.which,
       _this = g.currentState();
     if (e === 39 || e === 68) {
-      const rightBtn = document.getElementById("right");
-      rightBtn.animate(
-        [
-          { opacity: 1, transform: "scale(1, 1)" },
-          { opacity: 0, transform: "scale(2, 2)" },
-        ],
-        {
-          duration: 400,
-          iterations: 1,
-        }
-      );
+      // const rightBtn = document.getElementById("right");
+      // rightBtn.animate(
+      //   [
+      //     { opacity: 1, transform: "scale(1, 1)" },
+      //     { opacity: 0, transform: "scale(2, 2)" },
+      //   ],
+      //   {
+      //     duration: 400,
+      //     iterations: 1,
+      //   }
+      // );
       switch (_this.snake.dir) {
         case "w":
           _this.snake.dir = "n";
@@ -1061,17 +1061,17 @@ Play State
       }
     }
     if (e === 37 || e === 65) {
-      const leftBtn = document.getElementById("left");
-      leftBtn.animate(
-        [
-          { opacity: 1, transform: "scale(1, 1)" },
-          { opacity: 0, transform: "scale(2, 2)" },
-        ],
-        {
-          duration: 400,
-          iterations: 1,
-        }
-      );
+      // const leftBtn = document.getElementById("left");
+      // leftBtn.animate(
+      //   [
+      //     { opacity: 1, transform: "scale(1, 1)" },
+      //     { opacity: 0, transform: "scale(2, 2)" },
+      //   ],
+      //   {
+      //     duration: 400,
+      //     iterations: 1,
+      //   }
+      // );
       switch (_this.snake.dir) {
         case "w":
           _this.snake.dir = "s";
