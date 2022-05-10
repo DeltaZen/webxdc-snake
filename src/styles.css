@@ -239,9 +239,9 @@ Scoreboard
 
 #left,
 #right {
-  background: none;
+  background: rgba(0, 0, 0, 0.5);
   color: #fff;
-  border: 4px solid #fff;
+  border: none;
   border-radius: 999px;
   padding: 0.5rem;
   z-index: 25;
