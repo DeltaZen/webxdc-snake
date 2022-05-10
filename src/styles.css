@@ -207,11 +207,10 @@ Scoreboard
   margin-top: 2rem;
   margin-bottom: 1rem;
   padding: 0.5rem;
-  /* background: rgba(0, 0, 0, 0.5); */
-  background: none;
+  background: rgba(0, 0, 0, 0.5);
   color: #fff;
   border: none;
-  border-radius: 10px;
+  border-radius: 999px;
   z-index: 25;
 }
 
