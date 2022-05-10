@@ -1113,17 +1113,17 @@ Play State
       default:
         break;
     }
-    // const leftBtn = document.getElementById("left");
-    // leftBtn.animate(
-    //   [
-    //     { opacity: 1, transform: "scale(1, 1)" },
-    //     { opacity: 0, transform: "scale(2, 2)" },
-    //   ],
-    //   {
-    //     duration: 400,
-    //     iterations: 1,
-    //   }
-    // );
+    const leftBtn = document.getElementById("left");
+    leftBtn.animate(
+      [
+        { background: "rgba(0, 0, 0, 0.5)" },
+        { background: "rgba(0, 0, 0, 0.1)" },
+      ],
+      {
+        duration: 400,
+        iterations: 1,
+      }
+    );
   };
 
   StatePlay.prototype.moveRight = function (e) {
@@ -1145,17 +1145,17 @@ Play State
       default:
         break;
     }
-    // const rightBtn = document.getElementById("right");
-    // rightBtn.animate(
-    //   [
-    //     { opacity: 1, transform: "scale(1, 1)" },
-    //     { opacity: 0, transform: "scale(2, 2)" },
-    //   ],
-    //   {
-    //     duration: 400,
-    //     iterations: 1,
-    //   }
-    // );
+    const rightBtn = document.getElementById("right");
+    rightBtn.animate(
+      [
+        { background: "rgba(0, 0, 0, 0.5)" },
+        { background: "rgba(0, 0, 0, 0.1)" },
+      ],
+      {
+        duration: 400,
+        iterations: 1,
+      }
+    );
   };
 
   StatePlay.prototype.bindEvents = function () {
