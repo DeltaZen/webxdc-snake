@@ -1,21 +1,15 @@
 {
-  "name": "webxdc-snake",
-  "version": "1.0.0",
   "description": "Snake Game for Delta Chat",
   "main": "index.js",
   "scripts": {
     "dev": "vite --host --open",
-    "prebuild": "vite build",
-    "build": "pnpx jszip-cli -c .jsziprc.json",
+    "build": "vite build && pnpx jszip-cli -c .jsziprc.json",
     "preview": "vite preview"
   },
   "keywords": [],
   "author": "M4ss1ck",
-  "license": "0BSD",
-  "dependencies": {
-    "vite": "^2.9.5"
-  },
   "devDependencies": {
-    "@ffflorian/jszip-cli": "^3.1.6"
+    "@ffflorian/jszip-cli": "^3.1.6",
+    "vite": "^2.9.5"
   }
 }
