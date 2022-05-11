@@ -18,10 +18,12 @@ let lScore = 0;
   window.webxdc.setUpdateListener((update) => {
     const player = update.payload;
 
-    PLAYERS[player.addr] = {
-      name: player.name,
-      score: player.score,
-    };
+    if (player.score > getHighscore(player.addr)) {
+      PLAYERS[player.addr] = {
+        name: player.name,
+        score: player.score,
+      };
+    }
 
     if (update.serial === update.max_serial && !playing) {
       updateOnDeath().then(() => {
@@ -1329,7 +1331,7 @@ function startAgain() {
 
 async function updateOnDeath() {
   lScore = g.states[g.state].score || lScore;
-  if (g && g.states[g.state].score > 0 && !PLAYERS[addr]) {
+  if (g && g.states[g.state].score > getHighscore(addr)) {
     const payload = {
       name: selfName,
       addr: addr,
@@ -1345,26 +1347,11 @@ async function updateOnDeath() {
       score: g.states[g.state].score,
     };
     window.webxdc.sendUpdate({ payload: payload, info: info }, info);
-  } else if (
-    g &&
-    g.states[g.state].score > 0 &&
-    PLAYERS[addr].score < g.states[g.state].score
-  ) {
-    // setting player info on death
-    PLAYERS[addr] = {
-      name: selfName,
-      score: g.states[g.state].score,
-    };
-    const payload = {
-      name: selfName,
-      addr: addr,
-      score: g.states[g.state].score,
-    };
-    const info = `${selfName} scored ${
-      g.states[g.state].score
-    } points in Snake!`;
-    window.webxdc.sendUpdate({ payload: payload, info: info }, info);
   }
+}
+
+function getHighscore(addr) {
+    return PLAYERS[addr] ? PLAYERS[addr].score : 0;
 }
 
 handleBoard();
