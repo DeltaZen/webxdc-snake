@@ -1,15 +1,13 @@
 {
-  "description": "Snake Game for Delta Chat",
-  "main": "index.js",
+  "private": true,
+  "packageManager": "pnpm@6.32.3",
   "scripts": {
     "dev": "vite --host --open",
-    "build": "vite build && pnpx jszip-cli -c .jsziprc.json",
+    "build": "vite build && jszip-cli -c .jszip.config.json",
     "preview": "vite preview"
   },
-  "keywords": [],
-  "author": "M4ss1ck",
   "devDependencies": {
     "@ffflorian/jszip-cli": "^3.1.6",
-    "vite": "^2.9.5"
+    "vite": "^2.9.9"
   }
 }
