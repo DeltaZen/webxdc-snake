@@ -3,7 +3,7 @@
   "packageManager": "pnpm@6.32.3",
   "scripts": {
     "dev": "vite --host --open",
-    "build": "vite build && jszip-cli -c .jszip.config.json",
+    "build": "vite build && jszip-cli -c jszip.config.json",
     "preview": "vite preview"
   },
   "devDependencies": {
