@@ -1,37 +1,8 @@
-/*================================================
-
-Webxdc stuff
-
-================================================*/
-
-let PLAYERS = {};
-
-const addr = window.webxdc.selfAddr;
-const selfName = window.webxdc.selfName;
+import "@webxdc/highscores";
 
 let firstTime = true;
 let playing = false;
 let lScore = 0;
-
-(function () {
-  "use strict";
-  window.webxdc.setUpdateListener((update) => {
-    const player = update.payload;
-
-    if (player.score > getHighscore(player.addr)) {
-      PLAYERS[player.addr] = {
-        name: player.name,
-        score: player.score,
-      };
-    }
-
-    if (update.serial === update.max_serial && !playing) {
-      updateOnDeath().then(() => {
-        handleBoard();
-      });
-    }
-  }, 0);
-})();
 
 /*================================================
 
@@ -1249,7 +1220,7 @@ function handleBoard() {
   board.appendChild(listHeader);
 
   // crear texto de última puntuación
-  if (!firstTime && PLAYERS[addr] && lScore > 0) {
+  if (!firstTime && window.highscores.getScore() > 0) {
     const lastScore = document.createElement("p");
     lastScore.classList.add("lastScore");
     lastScore.innerHTML = "Last score: " + lScore;
@@ -1258,26 +1229,25 @@ function handleBoard() {
 
   const list = document.createElement("ul");
   list.classList.add("board");
-  Object.keys(PLAYERS)
-    .sort((a, b) => PLAYERS[b].score - PLAYERS[a].score)
-    .forEach((player, index) => {
+  window.highscores.getHighScores()
+    .forEach((player) => {
       const listItem = document.createElement("li");
       listItem.classList.add("sbItem");
-      if (player === addr) {
+      if (player.current) {
         listItem.classList.add("current");
       }
       const place = document.createElement("span");
       place.classList.add("place");
-      place.textContent = index + 1;
+      place.textContent = player.pos;
       const playerName = document.createElement("span");
       playerName.classList.add("playerName");
       playerName.textContent =
-        PLAYERS[player].name.length > 10
-          ? `${PLAYERS[player].name.slice(0, 10)}...`
-          : PLAYERS[player].name;
+        player.name.length > 10
+          ? `${player.name.slice(0, 10)}...`
+          : player.name;
       const playerScore = document.createElement("span");
       playerScore.classList.add("playerScore");
-      playerScore.textContent = PLAYERS[player].score;
+      playerScore.textContent = player.score;
       listItem.appendChild(place);
       listItem.appendChild(playerName);
       listItem.appendChild(playerScore);
@@ -1293,7 +1263,7 @@ function handleBoard() {
   svg.setAttribute("viewBox", "0 0 24 24");
   svg.setAttribute("stroke", "currentColor");
   svg.setAttribute("stroke-width", "2");
-  if (firstTime || !PLAYERS[addr]) {
+  if (firstTime || window.highscores.getScore() === 0) {
     const path1 = document.createElementNS(
       "http://www.w3.org/2000/svg",
       "path"
@@ -1330,28 +1300,16 @@ function startAgain() {
 }
 
 async function updateOnDeath() {
-  lScore = g.states[g.state].score || lScore;
-  if (g && g.states[g.state].score > getHighscore(addr)) {
-    const payload = {
-      name: selfName,
-      addr: addr,
-      score: g.states[g.state].score,
-    };
-    const info = `${selfName} scored ${
-      g.states[g.state].score
-    } points in Snake!`;
-
-    // setting player info on death
-    PLAYERS[addr] = {
-      name: selfName,
-      score: g.states[g.state].score,
-    };
-    window.webxdc.sendUpdate({ payload: payload, info: info }, info);
-  }
+  window.highscores.setScore(g.states[g.state].score);
+  lScore = window.highscores.getScore();
 }
 
-function getHighscore(addr) {
-    return PLAYERS[addr] ? PLAYERS[addr].score : 0;
-}
-
-handleBoard();
+window.highscores
+  .init({
+    onHighscoresChanged: () => {
+      updateOnDeath().then(() => {
+        handleBoard();
+      });
+    },
+  })
+  .then(handleBoard);

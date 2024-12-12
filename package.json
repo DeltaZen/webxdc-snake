@@ -1,13 +1,18 @@
 {
   "private": true,
-  "packageManager": "pnpm@6.32.3",
+  "type": "module",
   "scripts": {
-    "dev": "vite --host --open",
-    "build": "vite build && jszip-cli -c jszip.config.json",
-    "preview": "vite preview"
+    "start": "vite --port 3000",
+    "fix": "prettier --write .",
+    "check": "prettier --check .",
+    "build": "vite build"
   },
   "devDependencies": {
-    "@ffflorian/jszip-cli": "^3.1.6",
-    "vite": "^2.9.9"
+    "@webxdc/vite-plugins": "latest",
+    "prettier": "latest",
+    "vite": "latest"
+  },
+  "dependencies": {
+    "@webxdc/highscores": "^5.3.0"
   }
 }
