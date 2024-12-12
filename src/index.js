@@ -109,7 +109,7 @@ var g = {};
   g.m = Math;
   g.mathProps =
     "E LN10 LN2 LOG2E LOG10E PI SQRT1_2 SQRT2 abs acos asin atan ceil cos exp floor log round sin sqrt tan atan2 pow max min".split(
-      " "
+      " ",
     );
   for (var i = 0; i < g.mathProps.length; i++) {
     g[g.mathProps[i]] = g.m[g.mathProps[i]];
@@ -580,7 +580,7 @@ Snake Entity
           y: 3 * opt.parentState.tileHeight,
           w: opt.parentState.tileWidth - opt.parentState.spacing,
           h: opt.parentState.tileHeight - opt.parentState.spacing,
-        })
+        }),
       );
     }
     this.last = 0;
@@ -668,7 +668,7 @@ Snake Entity
           y: this.tiles[0].row * this.parentState.tileHeight,
           w: this.parentState.tileWidth - this.parentState.spacing,
           h: this.parentState.tileHeight - this.parentState.spacing,
-        })
+        }),
       );
       this.last = this.tiles.pop();
       this.parentState.stageElem.removeChild(this.last.elem);
@@ -686,7 +686,7 @@ Snake Entity
         this.parentState.grid.set(
           this.tiles[i].col,
           this.tiles[i].row,
-          "snake"
+          "snake",
         );
       }
       this.parentState.grid.set(this.last.col, this.last.row, "empty");
@@ -750,7 +750,7 @@ Snake Entity
             y: this.last.row * this.parentState.tileHeight,
             w: this.parentState.tileWidth - this.parentState.spacing,
             h: this.parentState.tileHeight - this.parentState.spacing,
-          })
+          }),
         );
         if (this.updateTickMax - this.updateTickChange > this.updateTickLimit) {
           this.updateTickMax -= this.updateTickChange;
@@ -968,7 +968,7 @@ Play State
             y: y * this.tileHeight,
             w: this.tileWidth - this.spacing,
             h: this.tileHeight - this.spacing,
-          })
+          }),
         );
       }
     }
@@ -1095,7 +1095,7 @@ Play State
       {
         duration: 400,
         iterations: 1,
-      }
+      },
     );
   };
 
@@ -1127,7 +1127,7 @@ Play State
       {
         duration: 400,
         iterations: 1,
-      }
+      },
     );
   };
 
@@ -1203,7 +1203,7 @@ function handleBoard() {
   let temElem1 = g.states.play.stageElem.cloneNode(true);
   g.states.play.stageElem.parentNode.replaceChild(
     temElem1,
-    g.states.play.stageElem
+    g.states.play.stageElem,
   );
 
   g.states.play.scoreElem.style.display = "none";
@@ -1229,30 +1229,27 @@ function handleBoard() {
 
   const list = document.createElement("ul");
   list.classList.add("board");
-  window.highscores.getHighScores()
-    .forEach((player) => {
-      const listItem = document.createElement("li");
-      listItem.classList.add("sbItem");
-      if (player.current) {
-        listItem.classList.add("current");
-      }
-      const place = document.createElement("span");
-      place.classList.add("place");
-      place.textContent = player.pos;
-      const playerName = document.createElement("span");
-      playerName.classList.add("playerName");
-      playerName.textContent =
-        player.name.length > 10
-          ? `${player.name.slice(0, 10)}...`
-          : player.name;
-      const playerScore = document.createElement("span");
-      playerScore.classList.add("playerScore");
-      playerScore.textContent = player.score;
-      listItem.appendChild(place);
-      listItem.appendChild(playerName);
-      listItem.appendChild(playerScore);
-      list.appendChild(listItem);
-    });
+  window.highscores.getHighScores().forEach((player) => {
+    const listItem = document.createElement("li");
+    listItem.classList.add("sbItem");
+    if (player.current) {
+      listItem.classList.add("current");
+    }
+    const place = document.createElement("span");
+    place.classList.add("place");
+    place.textContent = player.pos;
+    const playerName = document.createElement("span");
+    playerName.classList.add("playerName");
+    playerName.textContent =
+      player.name.length > 10 ? `${player.name.slice(0, 10)}...` : player.name;
+    const playerScore = document.createElement("span");
+    playerScore.classList.add("playerScore");
+    playerScore.textContent = player.score;
+    listItem.appendChild(place);
+    listItem.appendChild(playerName);
+    listItem.appendChild(playerScore);
+    list.appendChild(listItem);
+  });
   board.appendChild(list);
   const startBtn = document.createElement("button");
   startBtn.classList.add("startBtn");
@@ -1266,7 +1263,7 @@ function handleBoard() {
   if (firstTime || window.highscores.getScore() === 0) {
     const path1 = document.createElementNS(
       "http://www.w3.org/2000/svg",
-      "path"
+      "path",
     );
     path1.setAttribute("d", "M15 12.3301L9 16.6603L9 8L15 12.3301Z");
     path1.setAttribute("fill", "currentColor");
@@ -1278,7 +1275,7 @@ function handleBoard() {
     path.setAttribute("stroke-linejoin", "round");
     path.setAttribute(
       "d",
-      "M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+      "M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15",
     );
     svg.appendChild(path);
   }
